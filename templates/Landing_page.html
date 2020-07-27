@@ -1,0 +1,50 @@
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="navbar_temp.css">
+
+    <title>Sanand ElogBook</title>
+
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 offset-9 toplanding">
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-5 col-md-4 col-sm-2 leftlanding">
+                    <div class="land-text">
+                        <h1>
+                            Sanand Plant
+                        </h1>
+                     </div>
+                     <div class="sub-land-text">
+                        <h5 class="font-monospace font-italic">E-log Book</h5>
+
+                        <button type="button" class="btn btn-warning">
+                            <a href="{% provider_login_url 'google' %}">Login with Google
+                            </a>
+                        </button>
+                    </div>
+            </div>
+            <div class="col-lg-7 col-md-8 col-sm-10 rightlanding">
+                <div class="ill-img">
+                    <img src="factory_ill.png">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

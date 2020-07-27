@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+    {% if not User %}
+        <a href="{% url 'login' %}">Login</a>
+    {% else %}
+        Hello
+    {% endif %}
+
+</body>
+</html>
