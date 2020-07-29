@@ -1,5 +1,5 @@
 from django.db import models
-
+import datetime
 # Create your models here.
 class Electrical(models.Model):
     class Chlorinated_Soft_Water_Tank(models.Model):
@@ -40,7 +40,7 @@ class Electrical(models.Model):
         title = models.CharField(max_length=20,choices=(('1','Chlorinated_Soft_Water_Tank'),))
         doc_no = models.CharField(max_length=10)
         ref_sop_no = models.CharField(max_length=10)
-        date = models.DateField()
+        date = models.DateField(default=datetime.datetime.now())
         location = models.CharField(max_length=50)
         equipment_code = models.IntegerField()
         month = models.CharField(max_length=20,choices=month)
@@ -51,8 +51,8 @@ class Electrical(models.Model):
         remarks = models.TextField(max_length=400)
         done_by = models.CharField(max_length=20)
         checked_by = models.CharField(max_length=40)
-        done_on = models.DateTimeField(max_length=40)
-        next_due_on = models.DateTimeField()
+        done_on = models.DateTimeField(default=datetime.datetime.now())
+        next_due_on = models.DateTimeField(default=datetime.datetime.now())
 
         def __str__(self):
             return self.title

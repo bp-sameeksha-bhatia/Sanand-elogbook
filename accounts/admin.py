@@ -196,3 +196,8 @@ class UserAdmin(UserAdmin):
     )
 
     actions = [lock_all_users_admin_lock, unlock_all_users_admin_lock]
+
+    class UserAd(admin.ModelAdmin):
+        pass
+
+    admin.site.register(User,UserAd)

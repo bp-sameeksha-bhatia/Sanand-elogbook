@@ -85,9 +85,9 @@ WSGI_APPLICATION = 'Elogbook_1.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'elogbook',
+        'NAME': 'elogbook_1',
         'USER': 'postgres',
-        'PASSWORD': 'testing',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '',
     }

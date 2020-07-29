@@ -5,14 +5,16 @@ class ChlorinatedForm(ModelForm):
     class Meta:
         model = Electrical.Chlorinated_Soft_Water_Tank
         fields = '__all__'
+        exclude = ['date','done_on','next_due_on']
 
-
+    '''
     widgets = {
         'date': forms.DateTimeInput(attrs={'class': 'datetime-input'}),
         'done_on':forms.DateTimeInput(attrs={'class': 'datetime-input'}),
         'next_due_on':forms.DateTimeInput(attrs={'class': 'datetime-input'}),
-
+    
     }
+    '''
 
 
 
