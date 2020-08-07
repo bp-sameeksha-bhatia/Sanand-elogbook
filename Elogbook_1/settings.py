@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+
     'social_app',
     'allauth',
     'allauth.account',
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'accounts',
     'elogbook',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -139,6 +141,8 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 2
 LOGIN_REDIRECT_URL = '/acc/hr'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 
 SOCIALACCOUNT_PROVIDERS = {

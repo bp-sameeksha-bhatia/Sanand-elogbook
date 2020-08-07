@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load crispy_forms_tags %}
 <html lang="en">
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
@@ -175,6 +176,27 @@ color: rgba(0, 0, 0, 0.25);
     background-color:  #BFCC94;
     background-color: #FFEAEC;
 }
+.logbook_content .nav-item{
+    background-color: mintcream;
+    color:black;
+}
+.top-user{
+    width:100%;
+    display:inline-block;
+    padding:2px;
+    background-color:aliceblue;
+}
+.top-user .nav-item{
+
+    margin:10px;
+}
+.user-navbar button{
+    border: aliceblue;
+    background-color: aliceblue;
+}
+.user-navbar button:hover{
+    background-color: #ffc879;
+}
 
 @media (max-width: 640px) {
     .dropdown-menu{
@@ -191,8 +213,25 @@ color: rgba(0, 0, 0, 0.25);
     .message{
       font-size: 13px;
     }
+
 }
+        .inline_label ul{
+    list-style: none;
+            margin-bottom: 10px;
+}
+        .inline_label ul li{
+            display: inline;
+            border-bottom: 1px solid blanchedalmond;
+        }
     </style>
+    <script>
+         {% if messages %}
+                {% for message in messages %}
+                    alert(message);
+                {% endfor %}
+            {% endif %}
+
+    </script>
 
 </head>
 
@@ -293,13 +332,14 @@ color: rgba(0, 0, 0, 0.25);
         <!-- row 2  -->
           <div class="row">
               <div class="col-lg-2 col-md-3 col-sm-3 flex-column leftbar">
+
                   <nav class="navbar leftnavbar">
                       <ul class="navbar-nav flex-column">
                           <li class="nav-item">
 
                            <div class="row">
                           <div class="avatar mx-auto white col-lg-12 col-md-12 col-sm-12 col-12">
-                                <img src="avatar.png" class="img-fluid rounded-circle img-responsive" alt="woman avatar">
+                               <!-- <img src="avatar.png" class="img-fluid rounded-circle img-responsive" alt="woman avatar"> -->
                           </div>
                            </div>
 
@@ -322,7 +362,7 @@ color: rgba(0, 0, 0, 0.25);
                                <span class="text-center ml-1 pl-2"> Calendar </span></a>
                            </li>
                           <li class="nav-item">
-                              <a class="nav-link" href="{% url 'electrical_chlorinated' %}">
+                              <a class="nav-link" href="{% url 'allforms' %}">
                               <i class="fa fa-book" style="color:black"></i>
                                <span class="text-center ml-1 pl-2"> E-log Book </span></a>
                            </li>
@@ -342,39 +382,195 @@ color: rgba(0, 0, 0, 0.25);
                   </nav>
 
               </div>
+            <!-- main content section -->
+
               <div class="col-lg-10 col-md-9 col-sm-9 main-content" >
                   {% if user_role == 'SUPERVISOR' %}
-                          <table class="table table-hover table-striped table-bordered table-responsive">
-                              <tr>
-                                  <th>Activiy</th>
-                                  <th>Done By</th>
-                              </tr>
-                              {% for task1 in objs %}
-                                  <tr>
-                                <td class="text-wrap w-50">
-                                    {{ task1.get_activity_display }}
-                                </td>
+                      <div class="row">
+                        <div class="col-lg-2 col-md-3 col-sm-3 flex-column">
+                            <nav class="navbar logbook_content">
+                                <ul class="navbar-nav ">
+                                    <li class="nav-item nav-pills">
+                                        <a class="nav-link " href="#">
+                                            Chlorinated Soft Water Tank
+                                        </a>
+                                    </li>
+                                    <li class="nav-item nav-pills">
+                                        <a class="nav-link" href="#">
+                                            PCC form
+                                        </a>
+                                    </li>
 
-                                  <td>
-                                    {{ task1.done_by }}
-                                  </td>
+
+                                </ul>
+                            </nav>
+                        </div>
+
+                      <!-- user section top -->
+                      <div class="col-lg-8 col-md-9 col-sm-9 flex-column">
+                        <div class="row">
+                            <div class="top-user">
+                                <nav class="navbar navbar-expand-lg navbar-light user-navbar">
+                                    <ul class="navbar-nav ">
+
+                                        {% for user in users %}
+                                           <li class="nav-item" id="{{ user }}">
+                                               <!-- -->
+                                               <form>
+                                               <!--<input type="hidden" name="curr_user" value="{{ user }}"> -->
+                                               <!--<a onclick="location.href='{% url 'electrical_chlorinated' %}'" >{{ user }}</a> -->
+                                                   <button type="submit" onclick="location.href='{% url 'electrical_chlorinated' %}'" name="curr_user" value="{{ user }}">{{ user }}</button>
+                                               </form>
+
+                                            </li>
+
+                                        {% endfor %}
+
+                                    </ul>
+                                </nav>
+
+                            </div>
+                        </div>
+                            <!-- row 2 for form display -->
+                            <div class="row">
+
+                                <ul>
+                                    {% for curr_user in curr_user_list %}
+                                        User : {{ curr_user.done_by }}
+                                    <li>
+
+                                        <button class="btn btn-check" type="button" data-toggle="collapse" aria-expanded="false" href="#{{ curr_user.equipment_code }}">View More</button>
+                                        <table class="table table-hover table-striped table-bordered table-responsive collapse" id="{{ curr_user.equipment_code }}">
+
+                                      <tr>
+                                          <th>Done By </th>
+                                          <th>{{ curr_user.done_by }}</th>
+                                      </tr>
+                                        <tr>
+                                            <td class="text-wrap w-50">
+                                               Activity
+                                            </td>
+                                            <td>
+                                                {{ curr_user.get_activity_display }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td class="text-wrap w-50">
+                                                    Title
+                                                </td>
+                                              <td>
+                                                {{ curr_user.get_title_display}}
+                                              </td>
+                                        </tr>
+                                        <tr>
+                                                <td class="text-wrap w-50">
+                                                    Done By
+                                                </td>
+                                             <td> {{ curr_user.done_by }}</td>
+                                        </tr>
+                                        <tr>
+                                                <td class="text-wrap w-50">
+                                                    Date:
+                                                </td>
+                                              <td>
+                                                {{ curr_user.date }}
+                                              </td>
+                                        </tr>
+                                        <tr>
+                                                <td class="text-wrap w-50">
+                                                     Location
+                                                </td>
+                                              <td>
+                                                  {{ curr_user.location }}
+                                              </td>
+                                        </tr>
+                                        <tr>
+                                                <td class="text-wrap w-50">
+                                                    Equipment Code
+                                                </td>
+                                              <td>
+                                                {{ curr_user.equipment_code }}
+                                              </td>
+                                        </tr>
+                                        <tr>
+                                                <td class="text-wrap w-50">
+                                                    Month
+                                                </td>
+                                              <td>
+                                               {{ curr_user.get_month_display }}
+                                              </td>
+                                        </tr>
+
+                                        <tr>
+                                                <td class="text-wrap w-50">
+                                                    Remarks
+                                                </td>
+                                              <td>
+                                                {{ curr_user.remarks }}
+                                              </td>
+                                        </tr>
+                                        <tr>
+                                                <td class="text-wrap w-50">
+                                                    Check By
+                                                </td>
+                                              <td>
+                                                {{ curr_user.checked_by }}
+                                              </td>
+                                        </tr>
+
+                                </table>
+                                <form method="POST">
+                                    {% csrf_token %}
+                                <button type="submit" class="btn-success btn-sm p-2 m-2" onclick="{% url 'electrical_chlorinated' %}" name="acceptbtn" value="{{ curr_user }}">Accept</button>
+                                    <button class="btn-danger btn-sm p-2 m-2">Reject</button>
+                                <button class="btn-warning btn-sm p-2 m-2">Send Back</button>
+                                    </form>
 
 
-                                </tr>
-                              {% endfor %}
-                          </table>
+                                    </li>
+                                {% endfor %}
+                                </ul>
 
+
+                            </div>
+                        </div>
+                      </div>
 
                     {% else %}
-                      <form action="" method="POST">
-                        <table>
-                        {% csrf_token %}
-                        {{ form.as_table }}
+                      <div class="row">
 
-                         </table>
-                        <button type="submit" >Submit</button>
-                    </form>
+                      <!-- form col-1 -->
+                      <div class="col-lg-11 border-dark" >
+
+                        <form action="" method="POST" class="form-check-inline">
+                            <fieldset class="inline_label ">
+                            <table class="col-lg-11 table-responsive border-primary">
+                            {% csrf_token %}
+                            {{ form.as_table }}
+
+
+
+                             </table>
+                            <button type="submit" >Submit</button>
+                                </fieldset>
+                        </form>
+                      </div>
+                      <!--
+                      <div class="col-lg-4 border-info" style="border: 1px solid black">
+                      <ul>
+                        {% for curr_user in curr_user_list  %}
+                            <li>- <span class="font-italic">PENDING</span></li>
+                        {% endfor %}
+
+                      </ul>
+                      </div>
+                       -->
                       {% endif %}
+                  </div>
+
+
+                    </div>
+
 
               </div>
 

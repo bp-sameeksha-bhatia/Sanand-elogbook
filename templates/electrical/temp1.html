@@ -1,0 +1,19 @@
+<table class="table table-hover table-striped table-bordered table-responsive">
+                              <tr>
+                                  <th>Activiy</th>
+                                  <th>Done By</th>
+                              </tr>
+                              {% for task1 in objs %}
+                                  <tr>
+                                <td class="text-wrap w-50">
+                                    {{ task1.get_activity_display }}
+                                </td>
+
+                                  <td>
+                                    {{ task1.done_by }}
+                                  </td>
+
+
+                                </tr>
+                              {% endfor %}
+                          </table>
