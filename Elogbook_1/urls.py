@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,re_path
 from django.urls import include
 from django.views.generic import TemplateView
 import accounts
@@ -24,6 +24,8 @@ urlpatterns = [
     path('acc/',include('accounts.urls')),
     path('', TemplateView.as_view(template_name="Landing_page.html")),
     path('accounts/', include('allauth.urls')),
-    path('elogbook/',include('elogbook.urls')),
+    path('calendar/',include('sanand_calendar.urls')),
+    re_path('elogbook/', include('test.urls')),
+    #path('elogbook/',include('elogbook.urls')),
     path('admin/', admin.site.urls),
 ]

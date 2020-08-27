@@ -346,27 +346,21 @@ color: rgba(0, 0, 0, 0.25);
 
                         </li>
                           <li class="nav-item">
-                              <a class="nav-link" href="#">
+                              <a class="nav-link" href="{% url 'calendar_schedule' %}">
                               <i class="fa fa-calendar" style="color:black"></i>
                                <span class="text-center ml-1 pl-2"> Calendar </span></a>
                            </li>
                           <li class="nav-item">
-                              <a class="nav-link" href="{% url 'electrical_chlorinated' %}">
+                              <a class="nav-link" href="{% url 'allforms' %}">
                               <i class="fa fa-book" style="color:black"></i>
                                <span class="text-center ml-1 pl-2"> E-log Book </span></a>
                            </li>
-                          <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fa fa-user" style="color: black"></i>
-                              <span class="text-center ml-1 pl-2"> HR Section </span></a>
-                          </li>
+
                           <li class="nav-item">
                             <a class="nav-link" href=""><i class="fa fa-book" style="color: black"></i>
                               <span class="text-center ml-1 pl-2"> Shift Report </span></a>
                           </li>
-                          <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fa fa-envelope" style="color: black"></i>
-                              <span class="text-center ml-1 pl-2">Message</span></a>
-                          </li>
+
                       </ul>
                   </nav>
 
@@ -375,17 +369,9 @@ color: rgba(0, 0, 0, 0.25);
 
               <div class="col-lg-10 col-md-9 col-sm-9 main-content" >
 
-                <ul class="w3-ul w3-hoverable">
-                    {% for a_form in all_forms %}
-                        <li>
-                            <a href="{% url 'form' a_form.id %}">
-                            {{ a_form.form_name }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
+                        <p style="text-align: center;">Thank you for submitting the Form</p>
 
-                    </div>
+              </div>
 
 
               </div>

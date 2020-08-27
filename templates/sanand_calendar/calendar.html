@@ -196,6 +196,34 @@ color: rgba(0, 0, 0, 0.25);
 .user-navbar button:hover{
     background-color: #ffc879;
 }
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            width: 40%;
+            border-radius: 5px;
+            margin-left:auto;
+            margin-right:auto;
+            margin-top: 5px;
+            background-color: white;
+            padding: 8px;
+        }
+        .divStyle{
+            width: 40%;
+            margin-top: 8px;
+            margin-bottom: 8px;
+            margin-left:auto;
+            margin-right:auto;
+        }
+        .buttonStyle {
+            background-color: rgba(103,58,183,1);
+            color: white;
+            width: 70px;
+            height: 28px;
+            border-width: 0px;
+            padding: 5px;
+            border-radius: 3px;
+            font-size: 11px;
+        }
 @media (max-width: 640px) {
     .dropdown-menu{
       top: 50px;
@@ -212,6 +240,7 @@ color: rgba(0, 0, 0, 0.25);
       font-size: 13px;
     }
 }
+
     </style>
     <script>
          {% if messages %}
@@ -320,6 +349,7 @@ color: rgba(0, 0, 0, 0.25);
 
         <!-- row 2  -->
           <div class="row">
+
               <div class="col-lg-2 col-md-3 col-sm-3 flex-column leftbar">
 
                   <nav class="navbar leftnavbar">
@@ -351,44 +381,45 @@ color: rgba(0, 0, 0, 0.25);
                                <span class="text-center ml-1 pl-2"> Calendar </span></a>
                            </li>
                           <li class="nav-item">
-                              <a class="nav-link" href="{% url 'electrical_chlorinated' %}">
+                              <a class="nav-link" href="{% url 'allforms' %}">
                               <i class="fa fa-book" style="color:black"></i>
                                <span class="text-center ml-1 pl-2"> E-log Book </span></a>
                            </li>
-                          <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fa fa-user" style="color: black"></i>
-                              <span class="text-center ml-1 pl-2"> HR Section </span></a>
-                          </li>
+
                           <li class="nav-item">
                             <a class="nav-link" href=""><i class="fa fa-book" style="color: black"></i>
                               <span class="text-center ml-1 pl-2"> Shift Report </span></a>
                           </li>
-                          <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fa fa-envelope" style="color: black"></i>
-                              <span class="text-center ml-1 pl-2">Message</span></a>
-                          </li>
+
                       </ul>
                   </nav>
 
               </div>
             <!-- main content section -->
-
+          {% if user_role == 'ASSOCIATE' %}
               <div class="col-lg-10 col-md-9 col-sm-9 main-content" >
+                  <h4>Pending Log books to be filled</h4>
+                  <ol>
+                      {% for s in sch %}
+                      <li>{{s}}</li>
+                      {% endfor %}
+                  </ol>
 
-                <ul class="w3-ul w3-hoverable">
-                    {% for a_form in all_forms %}
-                        <li>
-                            <a href="{% url 'form' a_form.id %}">
-                            {{ a_form.form_name }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
 
-                    </div>
 
 
               </div>
+              {% elif user_role == 'SUPERVISOR'  %}
+              <div class="col-lg-10 col-md-9 col-sm-9 main-content" >
+
+              <h2>Supervisor Calendar</h2>
+                  <form method="post" action="">
+                      {% csrf_token %}
+                      {{ form.as_p }}
+                      <button type="submit" name="submit" value="submit">Submit</button>
+                  </form>
+              </div>
+          {% endif %}
 
           </div>
       </div>

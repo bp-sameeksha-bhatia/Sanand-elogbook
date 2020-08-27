@@ -33,7 +33,7 @@ class User(AbstractUser, AbstractAccessInfoModel):
     postal_code = models.CharField(max_length=512, blank=True)
     country_code = models.CharField(max_length=512, blank=True)
     title = models.CharField(max_length=512, blank=True)
-    dept = models.TextField(max_length=100)
+    dept = models.CharField(max_length=512)
     is_bp = models.BooleanField(default=False)  # check first 2 chars of employeeNum
     org_unit = models.CharField(max_length=512, blank=True)  # orgUnitPath
     photo_url = models.CharField(max_length=2048, blank=True)

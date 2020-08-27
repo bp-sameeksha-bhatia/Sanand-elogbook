@@ -76,3 +76,20 @@
           <div class="col-lg-10 col-md-10 col-sm-10" >
 
           </div>
+------------------------------------------------------------------------
+    <table class="table table-hover table-striped table-bordered table-responsive" >
+                                            <tr>
+                                            <button class="btn btn-check" data-toggle="collapse" data-target="{{ c_form }}">View More</button>
+                                           {% for key,value_li in c_form.items %}
+                                                <div id="{{c_form }}">
+                                                 <td>{{ key }}</td>
+                                                   <td>
+                                                       {% for value in value_li %}
+                                                           <p>{{ value }}</p>
+                                                           {% endfor %}
+                                                    </td>
+                                                </div>
+                                               </tr>
+                                            {% endfor %}
+                                        </table>
+                                        <hr/>

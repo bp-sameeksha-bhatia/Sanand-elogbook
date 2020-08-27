@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-
+    'sortedm2m',
+    'fcm_django',
     'social_app',
     'allauth',
     'allauth.account',
@@ -47,6 +48,10 @@ INSTALLED_APPS = [
     'accounts',
     'elogbook',
     'crispy_forms',
+    'test',
+    'sanand_calendar',
+    'mathfilters',
+
 ]
 
 MIDDLEWARE = [
@@ -140,7 +145,8 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SITE_ID = 2
-LOGIN_REDIRECT_URL = '/acc/hr'
+
+LOGIN_REDIRECT_URL = '/calendar'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
@@ -155,4 +161,7 @@ SOCIALACCOUNT_PROVIDERS = {
             'access_type': 'online',
         }
     }
+}
+FCM_DJANGO_SETTINGS = {
+        "FCM_SERVER_KEY": "AIzaSyC3mfhLj79u7ui4A7ZkV2swxb1nnnf3ZJ0"
 }
