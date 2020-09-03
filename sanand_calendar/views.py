@@ -3,6 +3,9 @@ from .models import Schedule
 from accounts.models import User
 from .forms import CalendarForm
 # Create your views here.
+
+
+
 def schedule(request):
     u1 = User.objects.get(username=request.user.username)
     user_role = u1.user_role

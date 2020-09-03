@@ -376,7 +376,7 @@ color: rgba(0, 0, 0, 0.25);
 
                         </li>
                           <li class="nav-item">
-                              <a class="nav-link" href="{% url 'calendar_schedule' %}">
+                              <a class="nav-link" href="{% url 'cal:calendar_schedule' %}">
                               <i class="fa fa-calendar" style="color:black"></i>
                                <span class="text-center ml-1 pl-2"> Calendar </span></a>
                            </li>
@@ -537,29 +537,28 @@ color: rgba(0, 0, 0, 0.25);
                                 <ul>
                                     {% for c_form in curr_user_forms %}
                                         <li>
-                                            <h6>Form No:{{c_form.0|addition:1}} - {{ c_form.1.form_remarks.0 }}</h6>
-                                            <form method="POST" action="{% url 'supervisor_form' %}">
+                                            <h6>Form No:{{c_form.0}} - {{ c_form.1.form_status.0 }}</h6>
+                                            <form method="POST" >
                                                 {% csrf_token %}
                                                 <input type="submit" class="btn btn-primary"  name="accept" value="Accept">
-                                                <input type="hidden" name="accept" value="{{c_form.0}}" >
-                                            </form>
-                                            <form method="POST" action="{% url 'supervisor_form' %}">
-                                                {% csrf_token %}
-                                                <input type="submit" class="btn btn-warning"  name="send_back" value="Send Back" >
-                                                <input type="hidden" name="sendback" value="{{c_form.0}}" >
-                                            </form>
-                                            <form method="POST"action="{% url 'supervisor_form' %}">
-                                                {% csrf_token %}
-                                                <input type="submit" class="btn btn-danger" name="reject" value="Reject">
-                                                <input type="hidden" name="reject" value="{{c_form.0}}" >
-                                            </form>
-                                            <form method="POST" action="{% url 'supervisor_form' %}">
-                                                {% csrf_token %}
-                                                <input type="text" name="extra_comments"  placeholder="Enter comments if any">
-                                                <input type="hidden" name="extra_comments" value="extra_comments.value">
-                                                <input type="hidden" name="extra_comments_id" value="{{c_form.0}}">
-                                            </form>
 
+                                                <input type="submit" class="btn btn-warning"  name="send_back" value="Send Back" >
+
+                                                <input type="submit" class="btn btn-danger" name="reject" value="Reject">
+                                                <input type="hidden" name="dataformpk" value="{{c_form.0}}">
+
+                                                <input type="text" name="extracomments"  placeholder="Enter comments if any">
+
+                                            </form>
+                                            <!--
+                                            <form method="POST" action="{% url 'supervisor_form' %}">
+                                                {% csrf_token %}
+                                                <input type="text" name="extracomments"  placeholder="Enter comments if any">
+                                                <input type="hidden" name="extracommentsid" value="{{c_form.0}}">
+                                                <input type="hidden" name="form_id" value="{{ form_id  }}">
+                                                <input type="submit" value="Submit">
+                                            </form>
+                                              -->
                                             <button class="btn btn-check" data-toggle="collapse" data-target="#div_{{c_form.0}}">View More</button>
                                             <div id="div_{{c_form.0}}" class="bg-light collapse" style="border-radius:10px;border:1px solid grey">
                                             <p>

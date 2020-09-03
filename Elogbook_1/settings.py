@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'test',
     'sanand_calendar',
     'mathfilters',
+    'djangocalendar',
 
 ]
 
@@ -92,7 +93,7 @@ WSGI_APPLICATION = 'Elogbook_1.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'elogbook_1',
+        'NAME': 'elogbook',
         'USER': 'postgres',
         'PASSWORD': 'root',
         'HOST': 'localhost',
