@@ -5,6 +5,7 @@ from django.views import generic
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 import calendar
+from notification.views import global_noify_count
 
 from .models import *
 from .utils import Calendar
@@ -26,11 +27,13 @@ class CalendarView(generic.ListView):
         print('context is :',context)
         d = get_date(self.request.GET.get('month', None))
         cal = Calendar(d.year, d.month)
+        print('self is :--->',self)
         html_cal = cal.formatmonth(withyear=True,user=self.request.user)
         context['calendar'] = mark_safe(html_cal)
         context['prev_month'] = prev_month(d)
         context['next_month'] = next_month(d)
         context['object_list'] = Event.objects.filter(user=self.request.user)
+        context['notification_count'] = global_noify_count(self.request)
 
         #get user
         u1 = User.objects.get(username=self.request.user.username)
@@ -59,6 +62,7 @@ def next_month(d):
     return month
 
 def event(request, event_id=None):
+    count = global_noify_count(request)
     print('inside event ')
     instance = Event()
     if event_id:
@@ -69,11 +73,20 @@ def event(request, event_id=None):
     user_role = u1.user_role
     form=None
     if user_role == 'SUPERVISOR':
-        form = EventForm(request.POST or None, instance=instance)
+        context = {'sent_by':request.user.email}
+        form = EventForm(request.POST or None, instance=instance,initial=context)
+
         if request.POST and form.is_valid():
-            form.save()
-            return render(request, 'event.html', {'form': form,'user_role':user_role})
+            form_id = request.POST.get('form', None)
+            user = request.POST.get('user', None)
+            event = Event.objects.filter(form=form_id, user=user)
+            if len(event)==0:
+                form.save()
+                return render(request, 'event.html', {'form': form,'user_role':user_role,'notification_count':count})
+            else:
+                return render(request, 'event.html',
+                              {'form': form, 'user_role': user_role, 'notification_count': count})
         else:
-            return render(request, 'event.html', {'form': form,'user_role':user_role})
+            return render(request, 'event.html', {'form': form,'user_role':user_role,'notification_count':count})
     else:
-        return render(request, 'event.html', {'form': form,'user_role':user_role})
+        return render(request, 'event.html', {'form': form,'user_role':user_role,'notification_count':count})

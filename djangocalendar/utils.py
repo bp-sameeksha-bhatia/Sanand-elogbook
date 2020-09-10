@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from calendar import HTMLCalendar
 from .models import Event
 from test.models import Data
+from django.db.models import Q
 
 class Calendar(HTMLCalendar):
 	def __init__(self, year=None, month=None):
@@ -32,12 +33,14 @@ class Calendar(HTMLCalendar):
 	# filter events by year and month
 	def formatmonth(self, withyear=True,user=None):
 		accepted_forms = []
-
-		all_data = Data.objects.filter(user=user,status='ACCEPTED')
-		for a_data in all_data:
-			accepted_forms.append(a_data)
-
-		events = Event.objects.filter(start_time__year=self.year, start_time__month=self.month,user=user)
+		event = Event.objects.filter(~Q(status='ACCEPTED'), user=user)
+		#all_data = Data.objects.filter(event__in=event)
+		#all_data = Data.objects.filter(Q(status='Reject')|Q(status='Send_Back'),user=user)
+		#print('all _data',all_data)
+		for a_event in event:
+			if a_event.status!="Accepted":
+				accepted_forms.append(a_event.form)
+		events = Event.objects.filter(start_time__year=self.year, start_time__month=self.month, user=user,form__in=accepted_forms)
 
 		cal = f'<table border="0" cellpadding="0" cellspacing="0" class="calendar">\n'
 		cal += f'{self.formatmonthname(self.year, self.month, withyear=withyear)}\n'

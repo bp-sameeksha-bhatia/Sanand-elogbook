@@ -1,7 +1,9 @@
 from django.contrib import admin
 from .models import *
 from nested_admin.nested import NestedModelAdmin
-
+from import_export.admin import ImportExportModelAdmin
+from .resources import DataResource
+from .views import export_json_field
 
 class FormModelAdmin(admin.ModelAdmin):
     model = Form
@@ -13,20 +15,22 @@ class FormModelAdmin(admin.ModelAdmin):
 class FieldModelAdmin(admin.ModelAdmin):
     model = Field
     list_display = ['field_name', 'description', 'type', 'is_enabled']
+    fields = ['field_name', 'description', 'type', 'is_enabled', 'options']
     list_per_page = 10
 
 
 class OptionsModelAdmin(NestedModelAdmin):
     model = Options
-    list_display = ['field', 'option_name', 'description']
+    list_display = ['option_name', 'description']
     list_per_page = 10
 
 
-class DataModelAdmin(NestedModelAdmin):
+class DataModelAdmin(ImportExportModelAdmin,NestedModelAdmin):
     model = Data
-    list_display = ['form', 'user', 'form_data','created','status','form_remarks']
+    list_display = ['event','form_data','created']
     readonly_fields = ['created','pk']
-
+    resource_class = DataResource
+    actions = [export_json_field,]
 
 admin.site.register(Form, FormModelAdmin)
 admin.site.register(Field, FieldModelAdmin)

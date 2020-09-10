@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path,re_path
 from django.urls import include
 from django.views.generic import TemplateView
+from django.conf import settings
+from django.conf.urls.static import static
 import accounts
 from djangocalendar import views
 
@@ -24,9 +26,10 @@ urlpatterns = [
 
     path('acc/',include('accounts.urls')),
     path('', TemplateView.as_view(template_name="Landing_page.html")),
+    path('notification/',include('notification.urls')),
     path('accounts/', include('allauth.urls')),
     path('calendar/',include('djangocalendar.urls')),
     re_path('elogbook/', include('test.urls')),
     #path('elogbook/',include('elogbook.urls')),
     path('admin/', admin.site.urls),
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)

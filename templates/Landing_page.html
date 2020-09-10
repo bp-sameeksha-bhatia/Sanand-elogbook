@@ -1,5 +1,6 @@
 {% load socialaccount %}
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
@@ -11,37 +12,75 @@
     <link rel="stylesheet" href="navbar_temp.css">
 
     <title>Sanand ElogBook</title>
+    <style>
+    body{
+    background-color:#485696;
+    }
+    .toplanding{
+        height:50px;
+    }
+    .leftlanding{
+        padding-top:120px;
+        padding-left:200px;
+    }
+    .land-text{
+    color:#E7E7E7;
+    font-style:'Helvetica';
+    font-size:60px;;
+    font-family:'bold';
+    }
+    .sub-land-text{
+        color:#F3A718;
+        font-family:'Sans Serif';
+    }
+    .rightlanding{
+        padding-top:90px;
+        padding-left:80px;
+        bottom:0;
+        right:0;
+      }
+    .sub-land-text button{
+        margin-top:30px;
+        background-color:#E7E7E7;
+        border-radius:10px;
+        padding:6px;
+    }
+    .sub-land-text button a{
+         color:#485696;
+    }
 
+    </style>
 
 </head>
 
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-3 col-md-3 offset-9 toplanding">
+            <div class="col-lg-3 col-md-3 toplanding">
+                <img src="{% static 'img/colgate_logo.jpg' %}" width="30%" height="100%">
 
             </div>
 
         </div>
         <div class="row">
-            <div class="col-lg-5 col-md-4 col-sm-2 leftlanding">
+            <div class="col-lg-5 col-md-4 col-sm-2 leftlanding ">
                     <div class="land-text">
-                        <h1>
                             Sanand Plant
-                        </h1>
+
                      </div>
                      <div class="sub-land-text">
-                        <h5 class="font-monospace font-italic">E-log Book</h5>
+                        <h3>E-log Book</h3>
 
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" style="border:1px solid white;">
+                            <i class="fa fa-google" style="color:blue;"></i>
                             <a href="{% provider_login_url 'google' %}">Login with Google
                             </a>
                         </button>
                     </div>
             </div>
-            <div class="col-lg-7 col-md-8 col-sm-10 rightlanding">
+            <div class="col-lg-7 col-md-8 col-sm-10 rightlanding ">
                 <div class="ill-img">
-                    <img src="factory_ill.png">
+                    <img src="{% static 'img/factory_ill_color.png' %}" width="100%" height="100%">
                 </div>
             </div>
         </div>

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 {% load mathfilters %}
 <html lang="en">
 <head>
@@ -18,6 +19,7 @@
 }
 body{
   background-color: #f1f1f1;
+  overflow-x:hidden;
 }
 .container-fluid{
     padding: 0 !important;
@@ -149,53 +151,96 @@ color: rgba(0, 0, 0, 0.25);
 .bg-gray{
   background-color: #eee;
 }
+.leftbar_img:before {
+    content:'';
+    position:absolute;
+    top:0px;
+    right:0px;
+    bottom:0px;
+    left:0px;
+    background:url('/static/img/sidebar-1.jpg') repeat;
+    background: rgba(0,0,0,0.7);
+    box-shadow: 0 0 10px 5px grey;
+}
 .leftbar{
     position:relative;
-    background: rgba(0, 188, 212, 0.05);
+    background: #485696;
     height:100vh;
+    border-radius:13px;
+    height:100vh;
+    z-index:1;
 }
+
 .leftnavbar{
     position:relative;
     padding:20px;
 
 }
 .leftnavbar .nav-link{
-    color:red;
-    opacity: 0.8;
+    position:relative;
+    color:#55917F;
     font-family: DM Sans;
 
+}
+.leftbar li{
+margin-left:2px;
+margin-right:10px;
+padding-left:5px;
+padding-right:10px;
+
+}
+.leftbar li i{
+
+    color:#55917F;
+
+}
+.leftbar li:hover{
+    background-color:#E7E7E7;
+}
+.user-name{
+color:#55917F;
 }
 .intro{
     position:relative;
 
 }
 .main-content{
-    background-color: #FCF7FF;
+    background-color: #E7E7E7;
 }
 .main-content  .nav-item{
     background-color:  #BFCC94;
     background-color: #FFEAEC;
 }
+.logbook_content{
+    left:0;
+    padding-top:0;
+    background-color:white;
+    height:100vh;
+}
 .logbook_content .nav-item{
-    background-color: mintcream;
+    background-color:white;
+    margin-top:0px;
     color:black;
 }
 .top-user{
     width:100%;
     display:inline-block;
     padding:2px;
-    background-color:aliceblue;
+    background-color:#559174;
+    border-bottom-left-radius:15px;
+    border-bottom-right-radius:15px;
 }
 .top-user .nav-item{
-
+    color:White;
     margin:10px;
 }
 .user-navbar button{
-    border: aliceblue;
-    background-color: aliceblue;
+    border: #559174;
+    color:white;
+    background-color: #559174;
 }
 .user-navbar button:hover{
-    background-color: #ffc879;
+    background-color: #485696;
 }
         .card {
             box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -241,6 +286,16 @@ color: rgba(0, 0, 0, 0.25);
       font-size: 13px;
     }
 }
+.notification_number{
+    position: absolute;
+  top: -2px;
+  left: 9px;
+  padding: 5px 7px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+}
+
 
     </style>
     <script>
@@ -257,12 +312,12 @@ color: rgba(0, 0, 0, 0.25);
   <body>
       <div class="container-fluid">
       <!-- row 1 Top Navbar -->
-
+        <!--
       <div class="row">
         <div class="col-lg-12 col-sm-12 col-12" >
           <nav class="navbar navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-expand-xs rounded top-navbar">
 
-                 <!-- Logo -->
+
             <a class="navbar-brand text-light" href="#">
                 <img src="logo.jpg" class="img-fluid img-responsive logo-img" alt="logo">
             </a>
@@ -280,7 +335,7 @@ color: rgba(0, 0, 0, 0.25);
                   <a class="nav-link text-light" href="#">Project</a>
                 </li>
 
-                   <!-- Bell icon -->
+
                 <li class="nav-item dropdown">
                   <a class="nav-link text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-bell"></i>
@@ -347,18 +402,18 @@ color: rgba(0, 0, 0, 0.25);
           </nav>
         </div>
       </div>
-
+        -->
         <!-- row 2  -->
           <div class="row">
               <div class="col-lg-2 col-md-3 col-sm-3 flex-column leftbar">
-
+                    <div class="leftbar_img"></div>
                   <nav class="navbar leftnavbar">
                       <ul class="navbar-nav flex-column">
                           <li class="nav-item">
 
                            <div class="row">
                           <div class="avatar mx-auto white col-lg-12 col-md-12 col-sm-12 col-12">
-                               <!-- <img src="avatar.png" class="img-fluid rounded-circle img-responsive" alt="woman avatar"> -->
+                               <img src="{% static 'img/avatar.png'%}" class="img-fluid rounded-circle img-responsive z-depth-2" style="margin-left:42px;margin-bottom:20px;" width="50" height="40" alt="avatar">
                           </div>
                            </div>
 
@@ -366,30 +421,35 @@ color: rgba(0, 0, 0, 0.25);
                            <div class="row">
                           <div class="col-lg-12 col-sm-12 col-md-12 col-12">
                             <!-- Name -->
-                            <h5 class="font-weight-bold text-center">{{ user }}</h5>
+                            <h5 class="font-weight-bold text-center user-name">{{ user }}</h5>
 
                             <!-- Quotation -->
-                            <p class="text-info font-weight-light text-muted small text-center"> Department :<br>
-                              Boiler Plate </p>
+                            <p class="text-info font-weight-light text-muted small text-center"> Department :
+                              {{user.dept}} </p>
+                              <hr color="grey">
                           </div>
                            </div>
 
                         </li>
                           <li class="nav-item">
                               <a class="nav-link" href="{% url 'cal:calendar_schedule' %}">
-                              <i class="fa fa-calendar" style="color:black"></i>
+                              <i class="fa fa-calendar" ></i>
                                <span class="text-center ml-1 pl-2"> Calendar </span></a>
                            </li>
                           <li class="nav-item">
                               <a class="nav-link" href="{% url 'allforms' %}">
-                              <i class="fa fa-book" style="color:black"></i>
+                              <i class="fa fa-book" ></i>
                                <span class="text-center ml-1 pl-2"> E-log Book </span></a>
                            </li>
 
-                          <li class="nav-item">
-                            <a class="nav-link" href=""><i class="fa fa-book" style="color: black"></i>
-                              <span class="text-center ml-1 pl-2"> Shift Report </span></a>
-                          </li>
+                                <li class="nav-item">
+                              <a class="nav-link" href="{% url 'notify' %}">
+                                  {% if notification_count %}
+                                    <span class=" notification_number badge badge-danger">{{notification_count}}</span>
+                                  {% endif %}
+                              <i class="fa fa-bell" ></i>
+                               <span class="text-center ml-1 pl-2">Notification</span></a>
+                           </li>
 
                       </ul>
                   </nav>
@@ -400,14 +460,15 @@ color: rgba(0, 0, 0, 0.25);
               <div class="col-lg-10 col-md-9 col-sm-9 main-content" >
                   <form action="{% url 'form_submit' %}" method="POST" id="dynamic_form">
                 {% csrf_token %}
-
+                    <input type="hidden" name="event_id" value="{{event_id}}">
                     {% for a_field in all_form_fields.all %}
 
                         {% if a_field.type == 'TEXT' %}
                             <div class="card">
                                 <label>{{ a_field.field_name }}</label><br>
                                 {% if a_field.field_value %}
-                                  <input type="text" name="{{ a_field.field_name }}" value="{{ a_field.field_value }}" disabled/>
+                                {{a_field.field_value}}
+                                  <input type="text" name="{{ a_field.field_name }}" value="{{ a_field.field_value }}" readonly />
                                 {% else %}
                                     <input type="text" name="{{ a_field.field_name }}" value="" />
                                 {% endif %}
@@ -424,41 +485,33 @@ color: rgba(0, 0, 0, 0.25);
                         {% endif %}
 
                         {% if a_field.type == 'CHOICE' %}
-                            <div class="card">
+                                <div class="card">
                                 <label>{{ a_field.field_name }}</label>
+                                    {% for options in a_field.options.all %}
+                                            <label><input type="radio" name="{{ a_field.field_name }}" value="{{ option.option_name }}"/>{{options.option_name}}</label>
+                                            <br>
 
-                                {% for a_option in all_form_options %}
-
-                                    {% if a_option.field.field_name == a_field.field_name %}
-                                        <label>{{ a_option.option_name }}</label>
-                                        <input type="radio" name="{{ a_field.field_name }}" value="{{ a_option.option_name }}"/>
-                                        <br>
-                                    {% endif %}
                                 {% endfor %}
                             </div>
-
                         {% endif %}
                         {% if a_field.type == 'CHOICE+REMARK' %}
 
                             <div class="card">
                                 <h6><u>{{ a_field.description }}</u></h6>
                                 <label>{{ a_field.field_name }}</label>
-                                {% for a_option in all_form_options %}
-
-                                        {% if a_option.field.field_name == a_field.field_name %}
-                                            {% if a_option.option_type == 'TEXT' %}
-                                                <label>{{ a_option.option_name }}</label>
+                                    {% for options in a_field.options.all %}
+                                            {% if options.option_type == 'TEXT' %}
+                                                <label>{{ options.option_name }}</label>
                                                 <input type="text" name="{{a_field.field_name }}_text" >
                                             {% endif %}
-                                            {% if a_option.option_type == 'RADIO_BUTTON' %}
+                                            {% if options.option_type == 'RADIO_BUTTON' %}
                                                 <label>
-                                                <input type="radio" name="{{ a_field.field_name }}_radio" value="{{ a_option.option_name }}"/>
-                                                {{ a_option.option_name }}
+                                                <input type="radio" name="{{ a_field.field_name }}_radio" value="{{ option.option_name }}"/>
+                                                {{ options.option_name }}
                                                 </label>
 
                                             {% endif %}
-                                        {% endif %}
-                                {% endfor %}
+                                        {% endfor %}
                             </div>
                         {% endif %}
 
@@ -469,11 +522,9 @@ color: rgba(0, 0, 0, 0.25);
 
                                 <select name="{{ a_field.field_name }}">
                                 <option value="">Choose</option>
-                                    {% for a_option in all_form_options %}
-                                        {% if a_option.field.field_name == a_field.field_name %}
-                                            <option value="{{ a_option.option_name }}">{{ a_option.option_name }}</option>
-                                        {% endif %}
-                                    {% endfor %}
+                                    {% for options in a_field.options.all %}
+                                            <option value="{{ options.option_name }}">{{ options.option_name }}</option>
+                                        {% endfor %}
                                 </select>
                             </div>
 
@@ -497,7 +548,8 @@ color: rgba(0, 0, 0, 0.25);
               <div class="col-lg-10 col-md-9 col-sm-9 main-content" >
                       <div class="row">
                         <div class="col-lg-2 col-md-3 col-sm-3 flex-column">
-                            <nav class="navbar logbook_content">
+                            <!--
+                            <nav class="navbar">
                                 <ul class="navbar-nav ">
                                     {% for form_name in all_forms %}
                                     <li class="nav-item nav-pills">
@@ -509,6 +561,7 @@ color: rgba(0, 0, 0, 0.25);
                                     {% endfor %}
                                 </ul>
                             </nav>
+                            -->
                         </div>
 
                       <!-- user section top -->
@@ -519,12 +572,12 @@ color: rgba(0, 0, 0, 0.25);
                                     <ul class="navbar-nav ">
 
                                         {% for user in users %}
-                                           <li class="nav-item" id="{{ user }}">
+                                           <li class="nav-item" style="color:white;" id="{{ user }}">
 
                                                <form>
                                                    <!--<input type="hidden" name="curr_user" value="{{ user }}">
                                                <a onclick="location.href=''" ></a> -->
-                                                   <button type="submit" onclick="location.href='{% url 'form_cur_user' %}'" name="curr_user" value="{{ user }}" class="text-muted">{{ user }}</button>
+                                                   <button type="submit" onclick="location.href='{% url 'form_cur_user' %}'" name="curr_user" value="{{ user }}">{{ user }}</button>
                                                </form>
                                             </li>
                                         {% endfor %}
@@ -533,11 +586,11 @@ color: rgba(0, 0, 0, 0.25);
                             </div>
                         </div>
                             <!-- row 2 for form display -->
-                            <div class="row">
+                            <div class="row" style="margin-top:10px;">
                                 <ul>
                                     {% for c_form in curr_user_forms %}
-                                        <li>
-                                            <h6>Form No:{{c_form.0}} - {{ c_form.1.form_status.0 }}</h6>
+
+                                            <h6>Form No:{{c_form.0}} - {{ c_form.3.status }}</h6>
                                             <form method="POST" >
                                                 {% csrf_token %}
                                                 <input type="submit" class="btn btn-primary"  name="accept" value="Accept">
@@ -546,6 +599,8 @@ color: rgba(0, 0, 0, 0.25);
 
                                                 <input type="submit" class="btn btn-danger" name="reject" value="Reject">
                                                 <input type="hidden" name="dataformpk" value="{{c_form.0}}">
+
+                                                <input type="hidden" name="eventid" value="{{c_form.2}}">
 
                                                 <input type="text" name="extracomments"  placeholder="Enter comments if any">
 
@@ -564,7 +619,7 @@ color: rgba(0, 0, 0, 0.25);
                                             <p>
                                                 <ul>
                                                 {% for key,value_li in c_form.1.items %}
-                                                 <li><h5>{{ key }}</h5></li>
+                                                 <h5>{{ key }}</h5>
                                                  {% for value in value_li  %}
                                                 <p class="text-info">{{value}}</p>
 
@@ -574,7 +629,7 @@ color: rgba(0, 0, 0, 0.25);
                                             </p>
                                         </div>
                                             <br>
-                                        </li>
+
 
                                     {% endfor %}
                                         </ol>

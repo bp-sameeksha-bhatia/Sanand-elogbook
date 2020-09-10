@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'sanand_calendar',
     'mathfilters',
     'djangocalendar',
+    'notification',
+    'import_export',
 
 ]
 
@@ -140,6 +142,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = ( os.path.join('static'), )
+
+
+
 AUTHENTICATION_BACKENDS = (
  'django.contrib.auth.backends.ModelBackend',
  'allauth.account.auth_backends.AuthenticationBackend',
@@ -163,6 +169,9 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+
 FCM_DJANGO_SETTINGS = {
         "FCM_SERVER_KEY": "AIzaSyC3mfhLj79u7ui4A7ZkV2swxb1nnnf3ZJ0"
 }

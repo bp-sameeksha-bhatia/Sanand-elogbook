@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 {% load mathfilters %}
 <html lang="en">
 <head>
@@ -18,7 +19,104 @@
     crossorigin="anonymous">
     <title>Sanand ElogBook</title>
     <style>
-        *{
+
+   body {
+  font-family: "ptsans", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.btn {
+  outline: none;
+  color: black;
+  background-color: transparent;
+  box-shadow: 0 0 0 0;
+  margin-right: 3px;
+  background-color:#D5E1F2;
+}
+
+.clearfix {
+  margin: 15px;
+}
+
+.form {
+  margin: auto;
+}
+
+.form input, .form select, .form textarea {
+  border-radius: 5px;
+  border: 1px solid #17a2b8;
+  outline: none;
+  background: none;
+  padding: 5px;
+  width: 100%;
+}
+
+/* App styles */
+.title {
+  text-align: center;
+  margin: 10px;
+}
+
+.calendar {
+  width: 98%;
+  margin: auto;
+  font-size: 13px;
+  background-color:#E7E7E7;
+  border-radius:20px;
+
+}
+
+.calendar tr, .calendar td {
+  border: 1px solid #55917F;
+}
+
+.calendar th {
+  padding: 10px;
+  text-align: center;
+  font-size: 18px;
+  color:#80475E;
+}
+
+.calendar td {
+  width: 200px;
+  height: 100px;
+  padding: 20px 0px 0px 5px;
+
+
+}
+
+.month {
+  font-size: 25px;
+  background-color:#E7E7E7;
+  border:1px solid #E7E7E7;
+}
+
+.date {
+  font-size: 25px;
+  border-radius:10px;
+  text-align:center;
+}
+.date span{
+background-color:#DBFEB8;
+text-align:center;
+}
+ul {
+  height: 100%;
+  padding: 0px 5px 0px 20px;
+
+}
+
+a {
+  color: #797596;
+}
+*{
     margin:0;
     padding:0;
 }
@@ -155,28 +253,62 @@ color: rgba(0, 0, 0, 0.25);
 .bg-gray{
   background-color: #eee;
 }
+
+.leftbar_img:before {
+    content:'';
+    position:absolute;
+    top:0px;
+    right:0px;
+    bottom:0px;
+    left:0px;
+    background:url('/static/img/sidebar-1.jpg') repeat;
+    background: rgba(0,0,0,0.7);
+    box-shadow: 0 0 10px 5px grey;
+}
 .leftbar{
     position:relative;
-    background: rgba(0, 188, 212, 0.05);
+    background: #485696;
     height:100vh;
+    border-radius:13px;
+    height:100vh;
+    z-index:1;
 }
+
 .leftnavbar{
     position:relative;
     padding:20px;
 
 }
 .leftnavbar .nav-link{
-    color:red;
-    opacity: 0.8;
+    position:relative;
+    color:#55917F;
     font-family: DM Sans;
 
+}
+.leftbar li{
+margin-left:2px;
+margin-right:10px;
+padding-left:5px;
+padding-right:10px;
+
+}
+.leftbar li i{
+
+    color:#55917F;
+
+}
+.leftbar li:hover{
+    background-color:#E7E7E7;
+}
+.user-name{
+color:#55917F;
 }
 .intro{
     position:relative;
 
 }
 .main-content{
-    background-color: #FCF7FF;
+    background-color: #E7E7E7;
 }
 .main-content  .nav-item{
     background-color:  #BFCC94;
@@ -247,99 +379,14 @@ color: rgba(0, 0, 0, 0.25);
       font-size: 13px;
     }
 }
-
-   body {
-  font-family: "ptsans", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-.left {
-  float: left;
-}
-
-.right {
-  float: right;
-}
-
-.btn {
-  outline: none;
-  color: black;
-  background-color: transparent;
-  box-shadow: 0 0 0 0;
-  margin-right: 3px;
-  background-color:#D5E1F2;
-}
-
-.clearfix {
-  margin: 15px;
-}
-
-.form {
-  margin: auto;
-}
-
-.form input, .form select, .form textarea {
-  border-radius: 5px;
-  border: 1px solid #17a2b8;
-  outline: none;
-  background: none;
-  padding: 5px;
-  width: 100%;
-}
-
-/* App styles */
-.title {
-  text-align: center;
-  margin: 10px;
-}
-
-.calendar {
-  width: 98%;
-  margin: auto;
-  font-size: 13px;
-  background-color:#F1DEDE;
-
-}
-
-.calendar tr, .calendar td {
-  border: 1px solid white;
-}
-
-.calendar th {
-  padding: 10px;
-  text-align: center;
-  font-size: 18px;
-  color:#80475E;
-}
-
-.calendar td {
-  width: 200px;
-  height: 100px;
-  padding: 20px 0px 0px 5px;
-
-}
-
-.month {
-  font-size: 25px;
-  background-color:white;
-}
-
-.date {
-  font-size: 25px;
-  background-color:white;
-  border:1px solid back;
-  border-radius:10px;
-}
-.date span{
-background-color:#DBFEB8;
-}
-ul {
-  height: 100%;
-  padding: 0px 5px 0px 20px;
-
-}
-
-a {
-  color: #797596;
+.notification_number{
+    position: absolute;
+  top: -2px;
+  left: 9px;
+  padding: 5px 7px;
+  border-radius: 50%;
+  background: red;
+  color: white;
 }
 	</style>
 
@@ -347,12 +394,12 @@ a {
 <body>
       <div class="container-fluid">
       <!-- row 1 Top Navbar -->
-
+        <!--
       <div class="row">
         <div class="col-lg-12 col-sm-12 col-12" >
           <nav class="navbar navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-expand-xs rounded top-navbar">
 
-                 <!-- Logo -->
+
             <a class="navbar-brand text-light" href="#">
                 <img src="logo.jpg" class="img-fluid img-responsive logo-img" alt="logo">
             </a>
@@ -370,7 +417,7 @@ a {
                   <a class="nav-link text-light" href="#">Project</a>
                 </li>
 
-                   <!-- Bell icon -->
+
                 <li class="nav-item dropdown">
                   <a class="nav-link text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-bell"></i>
@@ -437,18 +484,18 @@ a {
           </nav>
         </div>
       </div>
-
+        -->
         <!-- row 2  -->
           <div class="row">
-              <div class="col-lg-2 col-md-3 col-sm-3 flex-column leftbar">
-
+              <div class="col-lg-2 col-md-3 col-sm-3 flex-column leftbar" data-color="purple" >
+                  <div class="leftbar_img"></div>
                   <nav class="navbar leftnavbar">
                       <ul class="navbar-nav flex-column">
                           <li class="nav-item">
 
                            <div class="row">
                           <div class="avatar mx-auto white col-lg-12 col-md-12 col-sm-12 col-12">
-                               <!-- <img src="avatar.png" class="img-fluid rounded-circle img-responsive" alt="woman avatar"> -->
+                               <img src="{% static 'img/avatar.png'%}" class="img-fluid rounded-circle img-responsive z-depth-2" style="margin-left:42px;margin-bottom:20px;" width="50" height="40" alt="avatar">
                           </div>
                            </div>
 
@@ -456,30 +503,37 @@ a {
                            <div class="row">
                           <div class="col-lg-12 col-sm-12 col-md-12 col-12">
                             <!-- Name -->
-                            <h5 class="font-weight-bold text-center">{{ user }}</h5>
+                            <h5 class="font-weight-bold text-center user-name" >{{ user }}</h5>
 
                             <!-- Quotation -->
-                            <p class="text-info font-weight-light text-muted small text-center"> Department :<br>
-                              Boiler Plate </p>
+                            <p class="text-info font-weight-light text-muted small text-center"> Department :
+                              {{user.dept}} </p>
+                              <hr color="grey">
                           </div>
+
                            </div>
 
                         </li>
                           <li class="nav-item">
                               <a class="nav-link" href="{% url 'cal:calendar_schedule' %}">
-                              <i class="fa fa-calendar" style="color:black"></i>
+                              <i class="fa fa-calendar" ></i>
                                <span class="text-center ml-1 pl-2"> Calendar </span></a>
                            </li>
                           <li class="nav-item">
                               <a class="nav-link" href="{% url 'allforms' %}">
-                              <i class="fa fa-book" style="color:black"></i>
+                              <i class="fa fa-book" ></i>
                                <span class="text-center ml-1 pl-2"> E-log Book </span></a>
+
                            </li>
 
-                          <li class="nav-item">
-                            <a class="nav-link" href=""><i class="fa fa-book" style="color: black"></i>
-                              <span class="text-center ml-1 pl-2"> Shift Report </span></a>
-                          </li>
+                           <li class="nav-item">
+                              <a class="nav-link" href="{% url 'notify' %}">
+                                  {% if notification_count %}
+                                    <span class=" notification_number badge badge-danger">{{notification_count}}</span>
+                                  {% endif %}
+                              <i class="fa fa-bell" ></i>
+                               <span class="text-center ml-1 pl-2">Notification</span></a>
+                           </li>
 
                       </ul>
                   </nav>
