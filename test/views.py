@@ -9,6 +9,9 @@ from notification.views import global_noify_count
 from notification.views import notify
 from django.http import  HttpResponse
 from .resources import DataResource
+
+from django import template
+register = template.Library()
 import json
 import csv
 
@@ -132,52 +135,46 @@ def supervisor_form(request):
     return render(request, "test_form.html", context=context)
 
 
-
+@register.filter
 def create_form(request,pk,event_id):
     form_id=request.POST.get('form_id')
     data_form_pk = request.POST.get('dataformpk')
+    event_status = Event.objects.get(id=event_id).status
     if 'reject' in request.POST:
-        data = Event.objects.get(form=data_form_pk)
+        data = Event.objects.get(form=data_form_pk,id=event_id)
         data.status = 'Reject'
         data.form_remarks = request.POST.get('extracomments')
         data.save()
 
+
     elif 'accept' in request.POST:
-        data = Event.objects.get(form=data_form_pk)
+        data = Event.objects.get(form=data_form_pk,id=event_id)
         print('data is :',data)
         data.status = 'Accepted'
         data.form_remarks = request.POST.get('extracomments')
         data.save()
 
-        '''
-        if 'extracomments' in request.POST:
-            print('extra comments are there')
-            data.form_remarks = request.POST.get('extracomments')
-            print('extra comments are ****:', request.POST.get('extracomments'))
-            data.save()
-        '''
     elif 'send_back' in request.POST:
         print('send back ')
 
         print('form _pk is:', data_form_pk)
-        data = Event.objects.get(form=data_form_pk)
+        data = Event.objects.get(form=data_form_pk,id=event_id)
+        data.event = event_id
         data.status = 'Send Back'
+        data.read_unread=False
         data.form_remarks = request.POST.get('extracomments')
         data.save()
-    '''
-    elif 'extracomments' in request.POST:
-        print('extra comments are there')
-        data = Data.objects.get(pk=data_form_pk)
-        data.form_remarks = request.POST.get('extracomments')
-        print('extra comments are ****:', request.POST.get('extracomments'))
-        data.save()
-    '''
+
 
     curr_user = None
     cu=None
     c_user=None
     cu = request.GET.get('curr_user', None)
     curr_form_data = []
+    form_data = {}
+    if Data.objects.filter(event_id=event_id).exists():
+        form_data = Data.objects.get(event_id=event_id).form_data
+
     form = Form.objects.get(id=pk)
 
     if cu != None:
@@ -190,7 +187,7 @@ def create_form(request,pk,event_id):
             curr_form_data = []
             print('form data is ----', data)
             for d in data:
-                if d.event.status!="Accepted":
+                if d.event.status!="Accepted" and d.event.status!="Reject":
                     curr_form_data.append([d.event.form.id,d.form_data,d.event.id,d.event])
             print('form data is ----',curr_form_data)
             #for index,d in enumerate(data):
@@ -223,15 +220,21 @@ def create_form(request,pk,event_id):
     #print('curr_user_form',curr_form_data)
     context = {"all_form_fields": form.field, "all_form_options": all_form_fields,
                'user_role':user_role,'all_forms':all_forms,'users':users,
-               'curr_user':c_user,'curr_user_forms':curr_form_data,'form_id':form.id,'event_id':event_id,'notification_count':global_noify_count(request)}
+               'curr_user':c_user,'curr_user_forms':curr_form_data,'form_id':form.id,'event_id':event_id,'notification_count':global_noify_count(request),
+               'form_data':form_data,'event_status':event_status,'form':form}
     return render(request, "test_form.html",context=context)
 
 
 def save_form(request):
-    data = Data()
+    if Data.objects.filter(event_id=request.POST.get('event_id')).exists():
+        data = Data.objects.get(event_id=request.POST.get('event_id'))
+    else:
+        data = Data()
     event = Event.objects.get(id=request.POST.get('event_id'))
-    print('request.post',request.POST)
-    data.event = event
+    event.status = 'Form Sent' #changed
+    event.supervisor_read = False
+    event.save()   #changed
+
     print('request is : --',request)
     data.form = Form.objects.get(id=request.POST.get('form_id'))
     data.user = User.objects.get(id=request.user.id)
@@ -250,7 +253,8 @@ def save_form(request):
             json_data[a_field.field_name] = li
         else:
             json_data[a_field.field_name] = [request.POST.get(a_field.field_name)]
-
+    print('json data',json_data)
+    data.event = event
     data.form_data = json_data
     data.save()
     context = {'notification_count':global_noify_count(request)}

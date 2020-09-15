@@ -33,12 +33,12 @@ class Calendar(HTMLCalendar):
 	# filter events by year and month
 	def formatmonth(self, withyear=True,user=None):
 		accepted_forms = []
-		event = Event.objects.filter(~Q(status='ACCEPTED'), user=user)
+		event = Event.objects.filter(status__in=['INITIAL','Send Back','Form Sent'], user=user)
 		#all_data = Data.objects.filter(event__in=event)
 		#all_data = Data.objects.filter(Q(status='Reject')|Q(status='Send_Back'),user=user)
 		#print('all _data',all_data)
 		for a_event in event:
-			if a_event.status!="Accepted":
+			if a_event.status!="Accepted" or a_event.status!="Reject":
 				accepted_forms.append(a_event.form)
 		events = Event.objects.filter(start_time__year=self.year, start_time__month=self.month, user=user,form__in=accepted_forms)
 

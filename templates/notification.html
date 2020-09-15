@@ -460,10 +460,12 @@ color:#55917F;
                                 <div class="vertical"></div>
                               <div class="card-body" onclick="location.href='{% url 'unread_notification' event.id %}'" >
 
-                                <h4 class="card-title">{{event.title}}</h4>
+                                <h4 class="card-title">{{event.title}} - <span class="badge badge-warning">{{event.status}}</span> </h4>
 
                                 <h6 class="card-subtitle mb-2 text-muted">{{event.end_time}}</h6>
                                 <p class="card-text">{{event.description}}</p>
+                                  <p class="card-text">{{event.form_remarks}}</p>
+
                                   <a href="{{event.get_form_url}}" onclick="location.href='{% url 'unread_notification' event.id %}'">Click to Open</a>
                               </div>
                             </div>
@@ -478,8 +480,9 @@ color:#55917F;
 
                                 <h4 class="card-title">{{a_event.user}}</h4>
 
-                                <h6 class="card-subtitle mb-2 text-muted">{{a_event.form}}</h6>
+                                <h6 class="card-subtitle mb-2 text-muted">{{a_event.form}}-- <span class="badge badge-warning">{{a_event.status}}</h6>
                                 <p class="card-text">{{a_event.modified}}</p>
+                                  <p class="card-text">{{a_event.form_remarks}}</p>
                                   <a href="{{a_event.get_form_url}}" onclick="location.href='{% url 'unread_notification' a_event.id %}'">Click to View</a>
 
                               </div>

@@ -467,7 +467,6 @@ color:#55917F;
                             <div class="card">
                                 <label>{{ a_field.field_name }}</label><br>
                                 {% if a_field.field_value %}
-                                {{a_field.field_value}}
                                   <input type="text" name="{{ a_field.field_name }}" value="{{ a_field.field_value }}" readonly />
                                 {% else %}
                                     <input type="text" name="{{ a_field.field_name }}" value="" />
@@ -488,8 +487,8 @@ color:#55917F;
                                 <div class="card">
                                 <label>{{ a_field.field_name }}</label>
                                     {% for options in a_field.options.all %}
-                                            <label><input type="radio" name="{{ a_field.field_name }}" value="{{ option.option_name }}"/>{{options.option_name}}</label>
-                                            <br>
+                                            <label>{{options.option_name}}</label>
+                                            <input type="radio" name="{{ a_field.field_name }}" value="{{ options.option_name }}"/>
 
                                 {% endfor %}
                             </div>
@@ -506,9 +505,9 @@ color:#55917F;
                                             {% endif %}
                                             {% if options.option_type == 'RADIO_BUTTON' %}
                                                 <label>
-                                                <input type="radio" name="{{ a_field.field_name }}_radio" value="{{ option.option_name }}"/>
                                                 {{ options.option_name }}
                                                 </label>
+                                                <input type="radio" name="{{ a_field.field_name }}_radio" value="{{ options.option_name }}"/>
 
                                             {% endif %}
                                         {% endfor %}
@@ -540,9 +539,6 @@ color:#55917F;
                     {% endif %}
                 </form>
 
-
-
-
               </div>
               {% elif user_role == 'SUPERVISOR'  %}
               <div class="col-lg-10 col-md-9 col-sm-9 main-content" >
@@ -569,6 +565,7 @@ color:#55917F;
                         <div class="row">
                             <div class="top-user">
                                 <nav class="navbar navbar-expand-lg navbar-light user-navbar">
+                                    <h6>{{form.form_name }}|</h6>
                                     <ul class="navbar-nav ">
 
                                         {% for user in users %}
