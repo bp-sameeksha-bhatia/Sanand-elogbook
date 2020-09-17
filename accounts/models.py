@@ -41,6 +41,7 @@ class User(AbstractUser, AbstractAccessInfoModel):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     username = models.CharField(max_length=255, unique=True)
+    fcm_id = models.CharField(max_length=1000, blank=True)
     is_locked = models.BooleanField(default=False)
     locked_reason = models.CharField(max_length=512, default="", blank=True)
     who_locked = models.CharField(max_length=256, default="", blank=True)
