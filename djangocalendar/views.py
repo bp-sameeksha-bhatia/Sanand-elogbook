@@ -80,12 +80,9 @@ def event(request, event_id=None):
             form_id = request.POST.get('form', None)
             user = request.POST.get('user', None)
             event = Event.objects.filter(form=form_id, user=user)
-            if len(event)==0:
-                form.save()
-                return render(request, 'submitted.html', {'form': form,'user_role':user_role,'notification_count':count})
-            else:
-                return render(request, 'event.html',
-                              {'form': form, 'user_role': user_role, 'notification_count': count})
+            form.save()
+            return render(request, 'submitted.html', {'form': form,'user_role':user_role,'notification_count':count})
+
         else:
             return render(request, 'event.html', {'form': form,'user_role':user_role,'notification_count':count})
     else:

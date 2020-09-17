@@ -587,7 +587,7 @@ color:#55917F;
                                 <ul>
                                     {% for c_form in curr_user_forms %}
 
-                                            <h6>Form No:{{c_form.0}} - {{ c_form.3.status }}</h6>
+                                            <h6>Form No:{{c_form.2}} - {{ c_form.3.status }}</h6>
                                             <form method="POST" >
                                                 {% csrf_token %}
                                                 <input type="submit" class="btn btn-primary"  name="accept" value="Accept">
@@ -611,8 +611,8 @@ color:#55917F;
                                                 <input type="submit" value="Submit">
                                             </form>
                                               -->
-                                            <button class="btn btn-check" data-toggle="collapse" data-target="#div_{{c_form.0}}">View More</button>
-                                            <div id="div_{{c_form.0}}" class="bg-light collapse" style="border-radius:10px;border:1px solid grey">
+                                            <button class="btn btn-check" data-toggle="collapse" data-target="#div_{{c_form.2}}">View More</button>
+                                            <div id="div_{{c_form.2}}" class="bg-light collapse" style="border-radius:10px;border:1px solid grey">
                                             <p>
                                                 <ul>
                                                 {% for key,value_li in c_form.1.items %}

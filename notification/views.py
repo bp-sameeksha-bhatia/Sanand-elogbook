@@ -17,13 +17,13 @@ def notify(request):
     count=0
     events=None
     if request.user.user_role == 'ASSOCIATE':
-        events = Event.objects.filter(status__in = ['INITIAL','Send Back','Form Sent'],user=request.user).order_by('modified')
+        events = Event.objects.filter(status__in = ['INITIAL','Send Back','Form Sent'],user=request.user).order_by('-modified')
         print('events :',events)
         count = global_noify_count(request)
         print('count is ',count)
 
     elif request.user.user_role == 'SUPERVISOR':
-        events = Event.objects.filter(status__in=['Send Back','Form Sent'],user__dept=request.user.dept).order_by('modified')
+        events = Event.objects.filter(status__in=['Send Back','Form Sent'],user__dept=request.user.dept).order_by('-modified')
         count = global_noify_count(request)
         print('count is ', count)
     return render(request,'notification.html',context={'notification_count':count,'events':events,'user_role':request.user.user_role})

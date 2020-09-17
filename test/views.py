@@ -141,15 +141,18 @@ def create_form(request,pk,event_id):
     data_form_pk = request.POST.get('dataformpk')
     event_status = Event.objects.get(id=event_id).status
     if 'reject' in request.POST:
-        data = Event.objects.get(form=data_form_pk,id=event_id)
+        print('inside reject')
+        data = Event.objects.get(id=event_id)
         data.status = 'Reject'
+        print(data.status)
         data.form_remarks = request.POST.get('extracomments')
         data.save()
 
 
     elif 'accept' in request.POST:
-        data = Event.objects.get(form=data_form_pk,id=event_id)
-        print('data is :',data)
+        print('inside accept')
+        data = Event.objects.get(id=event_id)
+        #print('data is :',data)
         data.status = 'Accepted'
         data.form_remarks = request.POST.get('extracomments')
         data.save()
@@ -158,7 +161,7 @@ def create_form(request,pk,event_id):
         print('send back ')
 
         print('form _pk is:', data_form_pk)
-        data = Event.objects.get(form=data_form_pk,id=event_id)
+        data = Event.objects.get(id=event_id)
         data.event = event_id
         data.status = 'Send Back'
         data.read_unread=False

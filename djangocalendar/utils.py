@@ -38,10 +38,13 @@ class Calendar(HTMLCalendar):
 		#all_data = Data.objects.filter(Q(status='Reject')|Q(status='Send_Back'),user=user)
 		#print('all _data',all_data)
 		for a_event in event:
-			if a_event.status!="Accepted" or a_event.status!="Reject":
+			print('a_event',a_event)
+			if a_event.status!="Accepted" and a_event.status!="Reject":
 				accepted_forms.append(a_event.form)
-		events = Event.objects.filter(start_time__year=self.year, start_time__month=self.month, user=user,form__in=accepted_forms)
-
+		print('user s :',user)
+		print('accepted forms:',accepted_forms)
+		events = Event.objects.filter( user=user,status__in=['INITIAL','Send Back','Form Sent'])
+		print('events is :',events)
 		cal = f'<table border="0" cellpadding="0" cellspacing="0" class="calendar">\n'
 		cal += f'{self.formatmonthname(self.year, self.month, withyear=withyear)}\n'
 		cal += f'{self.formatweekheader()}\n'
