@@ -25,7 +25,7 @@ SECRET_KEY = '&psd0#o#if&y2-%d%u6=9ar0@@wpcuxcatzw8&tp13r#j+i9+r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.3','127.0.0.1:8001','127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.3','127.0.0.1:8001','127.0.0.1', '*']
 AUTH_USER_MODEL = 'accounts.User'
 
 # Application definition
@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'rest_framework',
     'sortedm2m',
+    'import_export',
     'fcm_django',
     'social_app',
     'allauth',
@@ -51,6 +53,7 @@ INSTALLED_APPS = [
     'test',
     'sanand_calendar',
     'mathfilters',
+    'djangocalendar',
 
 ]
 
@@ -62,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'Elogbook_1.urls'
@@ -85,6 +89,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Elogbook_1.wsgi.application'
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -92,13 +98,14 @@ WSGI_APPLICATION = 'Elogbook_1.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'elogbook_1',
+        'NAME': 'elogbook1',
         'USER': 'postgres',
-        'PASSWORD': 'root',
+        'PASSWORD': 'testing',
         'HOST': 'localhost',
         'PORT': '',
     }
 }
+STATIC_ROOT = "./static/"
 
 
 # Password validation

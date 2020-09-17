@@ -1,7 +1,11 @@
 from django.urls import path, re_path
+from rest_framework import routers
 from .views import *
+from .sub_views import *
 
-form = Form()
+router = routers.DefaultRouter()
+router.register('forms', FormView, basename='forms')
+router.register('user', UserView, basename='user')
 
 urlpatterns = [
     path("index", show_form_list,name='allforms'),

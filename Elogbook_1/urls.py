@@ -18,13 +18,16 @@ from django.urls import path,re_path
 from django.urls import include
 from django.views.generic import TemplateView
 import accounts
+from djangocalendar import views
+from test import urls as test_urls
 
 urlpatterns = [
 
     path('acc/',include('accounts.urls')),
     path('', TemplateView.as_view(template_name="Landing_page.html")),
     path('accounts/', include('allauth.urls')),
-    path('calendar/',include('sanand_calendar.urls')),
+    path('calendar/',include('djangocalendar.urls')),
+    path('test/', include(test_urls.router.urls)),
     re_path('elogbook/', include('test.urls')),
     #path('elogbook/',include('elogbook.urls')),
     path('admin/', admin.site.urls),
