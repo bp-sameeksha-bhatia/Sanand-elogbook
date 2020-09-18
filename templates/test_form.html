@@ -459,11 +459,133 @@ color:#55917F;
           {% if user_role == 'ASSOCIATE' %}
               <div class="col-lg-10 col-md-9 col-sm-9 main-content" >
                   <form action="{% url 'form_submit' %}" method="POST" id="dynamic_form">
-                {% csrf_token %}
-                    <input type="hidden" name="event_id" value="{{event_id}}">
-                    {% for a_field in all_form_fields.all %}
+                     {% csrf_token %}
+                      {% if form_data %}
+
+                          {% for key,values in form_data.items %}
+                            <input type="hidden" name="event_id" value="{{event_id}}">
+
+                            {% for a_field in all_form_fields.all %}
+
+                                {% if a_field.type == 'TEXT' %}
+                                    {% if key == a_field.field_name %}
+                                        <div class="card">
+                                            <label>{{ a_field.field_name }}</label><br>
+                                            {% if a_field.field_value %}
+                                              <input type="text" name="{{ a_field.field_name }}" value="{{ a_field.field_value }}" readonly />
+                                            {% elif key == a_field.field_name %}
+                                                <input type="text" name="{{ a_field.field_name }}" value="{{values.0}}" />
+
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+
+                                {% endif %}
+
+
+                        {% if a_field.type == 'INTEGER' %}
+                            {% if key == a_field.field_name %}
+                            <div class="card">
+                                <label>{{ a_field.field_name }}</label><br>
+                                {% if key == a_field.field_name %}
+                                <input type="number" name="{{ a_field.field_name }}" value = {{values.0}} required/>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+
+                        {% endif %}
+
+                        {% if a_field.type == 'CHOICE' %}
+                        {% if key == a_field.field_name %}
+                                <div class="card">
+                                <label>{{ a_field.field_name }}</label>
+                                    {% if key == a_field.field_name %}
+                                    {% for options in a_field.options.all %}
+                                            <label>{{options.option_name}}</label>
+                                            {% if options.option_name == values.0 %}
+                                            <input type="radio" name="{{ a_field.field_name }}" value="{{options.option_name}}" checked/>
+                                            {% else %}
+                                            <input type="radio" name="{{ a_field.field_name }}" value="{{options.option_name}}" />
+                                            {% endif %}
+
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        {% endif %}
+
+                        {% if a_field.type == 'CHOICE+REMARK' %}
+                            {% if key == a_field.field_name %}
+                            <div class="card">
+                                <h6><u>{{ a_field.description }}</u></h6>
+                                <label>{{ a_field.field_name }}</label>
+                                    {% for options in a_field.options.all %}
+                                            {% if options.option_type == 'TEXT' %}
+                                                <label>{{ options.option_name }}</label>
+                                                <input type="text" name="{{a_field.field_name }}_text" value="{{values.0}}">
+
+
+                                            {% endif %}
+                                            {% if options.option_type == 'RADIO_BUTTON' %}
+
+                                                <label>
+                                                 {% if key == a_field.field_name %}
+                                                {{ options.option_name }}
+                                                    {% endif %}
+                                                </label>
+                                                {% if options.option_name == values.1 %}
+                                                <input type="radio" name="{{ a_field.field_name }}_radio" value="{{ options.option_name }}" checked />
+                                                {% else %}
+                                                 <input type="radio" name="{{ a_field.field_name }}_radio" value="{{ options.option_name }}"/>
+
+                                                {% endif %}
+
+                                            {% endif %}
+                                        {% endfor %}
+                            </div>
+                      {% endif %}
+                        {% endif %}
+
+                        {% if a_field.type == 'DROPDOWN' %}
+                        {% if key == a_field.field_name %}
+                            <div class="card">
+                                <label>{{ a_field.field_name }}</label>
+
+
+                                <select name="{{ a_field.field_name }}">
+                                <option value="">Choose</option>
+                                    {% for options in a_field.options.all %}
+                                            {% if options.option_name == values.0 %}
+                                            <option value="{{ options.option_name }}" selected >{{ options.option_name }}</option>
+                                            {% else %}
+                                            <option value="{{ options.option_name }}" >{{ options.option_name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                </select>
+                            </div>
+                        {% endif %}
+                        {% endif %}
+
+                      <!--endif for len(form_data)>0 -->
+
+
+                        <input type="hidden" name="form_id" value="{{ form_id }}">
+                    {% endfor %}
+                      {% endfor %}
+
+                    {% if all_form_fields.all|length > 0 %}
+                    <div class="divStyle">
+                        <input id="submitBtn" class="buttonStyle" type="submit" value="Submit">
+                    </div>
+                    {% endif %}
+
+
+                      {% else %}
+                      <input type="hidden" name="event_id" value="{{event_id}}">
+                        {% for a_field in all_form_fields.all %}
 
                         {% if a_field.type == 'TEXT' %}
+
                             <div class="card">
                                 <label>{{ a_field.field_name }}</label><br>
                                 {% if a_field.field_value %}
@@ -532,11 +654,14 @@ color:#55917F;
                         <input type="hidden" name="form_id" value="{{ form_id }}">
                     {% endfor %}
 
-                    {% if all_form_fields.all|length > 0 %}
-                    <div class="divStyle">
-                        <input id="submitBtn" class="buttonStyle" type="submit" value="Submit">
-                    </div>
-                    {% endif %}
+                        {% if all_form_fields.all|length > 0 %}
+                        <div class="divStyle">
+                            <input id="submitBtn" class="buttonStyle" type="submit" value="Submit">
+                        </div>
+                      {% endif %}
+
+                      {% endif %}
+
                 </form>
 
               </div>
@@ -563,9 +688,10 @@ color:#55917F;
                       <!-- user section top -->
                       <div class="col-lg-8 col-md-9 col-sm-9 flex-column">
                         <div class="row">
+                            <div class="badge badge-warning"><h6>{{form.form_name }}</h6></div>
                             <div class="top-user">
                                 <nav class="navbar navbar-expand-lg navbar-light user-navbar">
-                                    <h6>{{form.form_name }}|</h6>
+
                                     <ul class="navbar-nav ">
 
                                         {% for user in users %}

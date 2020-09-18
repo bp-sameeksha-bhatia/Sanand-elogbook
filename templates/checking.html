@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load mathfilters %}
 <html lang="en">
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
@@ -18,6 +19,7 @@
 }
 body{
   background-color: #f1f1f1;
+  overflow-x:hidden;
 }
 .container-fluid{
     padding: 0 !important;
@@ -209,60 +211,65 @@ color:#55917F;
     background-color:  #BFCC94;
     background-color: #FFEAEC;
 }
+.logbook_content{
+    left:0;
+    padding-top:0;
+    background-color:white;
+    height:100vh;
+}
 .logbook_content .nav-item{
-    background-color: mintcream;
+    background-color:white;
+    margin-top:0px;
     color:black;
 }
 .top-user{
     width:100%;
     display:inline-block;
     padding:2px;
-    background-color:aliceblue;
+    background-color:#559174;
+    border-bottom-left-radius:15px;
+    border-bottom-right-radius:15px;
 }
 .top-user .nav-item{
-
+    color:White;
     margin:10px;
 }
 .user-navbar button{
-    border: aliceblue;
-    background-color: aliceblue;
+    border: #559174;
+    color:white;
+    background-color: #559174;
 }
 .user-navbar button:hover{
-    background-color: #ffc879;
+    background-color: #485696;
 }
-.notify-panel{
-    position:relative;
-        top:10px;
-       height:100vh;
-       background-color:#E7E7E7;
-       background:(0,0,0,0.8);
-       width:35%;
-       left:0px;
-    }
-    .notify-head{
-        top:20px;
-        background-color:white;
-        border:1px solid #E7E7E7;
-        border-top-left-radius:30px;
-        border-top-right-radius:30px;
-        text-align:center;
-        font-size:25px;
-
-    }
-    .notify-panel .card{
-    background-color:white;
-    margin-bottom:7px;
-    }
-    .notify-panel .card:hover{
-    background-color:#E7E7E7;
-    }
-    .vertical {
-            border-left: 6px solid #55917F;
-            height:100%;
-            position:absolute;
-            left: 0;
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            width: 40%;
+            border-radius: 5px;
+            margin-left:auto;
+            margin-right:auto;
+            margin-top: 5px;
+            background-color: white;
+            padding: 8px;
         }
-
+        .divStyle{
+            width: 40%;
+            margin-top: 8px;
+            margin-bottom: 8px;
+            margin-left:auto;
+            margin-right:auto;
+        }
+        .buttonStyle {
+            background-color: rgba(103,58,183,1);
+            color: white;
+            width: 70px;
+            height: 28px;
+            border-width: 0px;
+            padding: 5px;
+            border-radius: 3px;
+            font-size: 11px;
+        }
 @media (max-width: 640px) {
     .dropdown-menu{
       top: 50px;
@@ -278,7 +285,6 @@ color:#55917F;
     .message{
       font-size: 13px;
     }
-    .
 }
 .notification_number{
     position: absolute;
@@ -289,6 +295,8 @@ color:#55917F;
   background: red;
   color: white;
 }
+
+
     </style>
     <script>
          {% if messages %}
@@ -303,9 +311,8 @@ color:#55917F;
 
   <body>
       <div class="container-fluid">
-          <!--
-
-
+      <!-- row 1 Top Navbar -->
+        <!--
       <div class="row">
         <div class="col-lg-12 col-sm-12 col-12" >
           <nav class="navbar navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-expand-xs rounded top-navbar">
@@ -395,7 +402,7 @@ color:#55917F;
           </nav>
         </div>
       </div>
--->
+        -->
         <!-- row 2  -->
           <div class="row">
               <div class="col-lg-2 col-md-3 col-sm-3 flex-column leftbar">
@@ -434,7 +441,8 @@ color:#55917F;
                               <i class="fa fa-book" ></i>
                                <span class="text-center ml-1 pl-2"> E-log Book </span></a>
                            </li>
-                          <li class="nav-item">
+
+                                <li class="nav-item">
                               <a class="nav-link" href="{% url 'notify' %}">
                                   {% if notification_count %}
                                     <span class=" notification_number badge badge-danger">{{notification_count}}</span>
@@ -443,70 +451,218 @@ color:#55917F;
                                <span class="text-center ml-1 pl-2">Notification</span></a>
                            </li>
 
-
-
                       </ul>
                   </nav>
 
               </div>
             <!-- main content section -->
-
+          {% if user_role == 'ASSOCIATE' %}
               <div class="col-lg-10 col-md-9 col-sm-9 main-content" >
-                  <div class="notify-panel">
-                      <div class="notify-head"style="font-family:Sans Serif">Notification <i class="fa fa-bell" style="color:#55917F;font-size:20px;"></i></div>
-                      {% if user_role == 'ASSOCIATE' %}
-                      {% for event in events %}
-                            <div class="card" >
-                                <div class="vertical"></div>
-                              <div class="card-body" onclick="location.href='{% url 'unread_notification' event.id %}'" >
+                  <form action="{% url 'form_submit' %}" method="POST" id="dynamic_form">
+                {% csrf_token %}
 
-                                <h4 class="card-title">{{event.title}} - <span class="badge badge-warning">{{event.status}}</span> </h4>
 
-                                  <h6 class="card-subtitle mb-2 text-muted"><b>End time</b>-{{event.end_time}}</h6>
-                                <p class="card-text">{{event.description}}</p>
-                                  <p class="card-text">{{event.form_remarks}}</p>
+                        <input type="hidden" name="event_id" value="{{event_id}}">
+                        {% for a_field in all_form_fields.all %}
 
-                                  <a href="{{event.get_form_url}}" onclick="location.href='{% url 'unread_notification' event.id %}'">Click to Open</a>
-                              </div>
-                            </div>
+                        {% if a_field.type == 'TEXT' %}
 
-                            <!--Title :<span class="text-mute">{{ event.title }}</span> submit before {{ event.end_time }} -->
-                    {% endfor %}
-                      {% elif user_role == 'SUPERVISOR' %}
-                      {% for a_event in events %}
                             <div class="card">
-                                <div class="vertical"></div>
-                              <div class="card-body" onclick="location.href='{% url 'unread_notification' a_event.id %}'" >
-
-                                <h4 class="card-title">{{a_event.user}}</h4>
-
-                                <h6 class="card-subtitle mb-2 text-muted">{{a_event.form}}-- <span class="badge badge-warning">{{a_event.status}}</h6>
-                                <p class="card-text">{{a_event.modified}}</p>
-                                  <p class="card-text">{{a_event.form_remarks}}</p>
-                                  <a href="{{a_event.get_form_url}}" onclick="location.href='{% url 'unread_notification' a_event.id %}'">Click to View</a>
-
-                              </div>
+                                <label>{{ a_field.field_name }}</label><br>
+                                {% if a_field.field_value %}
+                                  <input type="text" name="{{ a_field.field_name }}" value="{{ a_field.field_value }}" readonly />
+                                {% else %}
+                                    <input type="text" name="{{ a_field.field_name }}" value="" />
+                                {% endif %}
                             </div>
-                        {% endfor %}
-                      {% endif %}
-                  </div>
-                <!--
-                <ul class="w3-ul w3-hoverable" style="margin:30px;">
-                    {% for event in events %}
-                        <li>
 
-                            Title :<span class="text-mute">{{ event.title }}</span> submit before {{ event.end_time }}
-                        </li>
+                        {% endif %}
+
+                        {% if a_field.type == 'INTEGER' %}
+                            <div class="card">
+                                <label>{{ a_field.field_name }}</label><br>
+                                <input type="number" name="{{ a_field.field_name }}" required/>
+                            </div>
+
+                        {% endif %}
+
+                        {% if a_field.type == 'CHOICE' %}
+                                <div class="card">
+                                <label>{{ a_field.field_name }}</label>
+                                    {% for options in a_field.options.all %}
+                                            <label>{{options.option_name}}</label>
+                                            <input type="radio" name="{{ a_field.field_name }}" value="{{ options.option_name }}"/>
+
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        {% if a_field.type == 'CHOICE+REMARK' %}
+
+                            <div class="card">
+                                <h6><u>{{ a_field.description }}</u></h6>
+                                <label>{{ a_field.field_name }}</label>
+                                    {% for options in a_field.options.all %}
+                                            {% if options.option_type == 'TEXT' %}
+                                                <label>{{ options.option_name }}</label>
+                                                <input type="text" name="{{a_field.field_name }}_text" >
+                                            {% endif %}
+                                            {% if options.option_type == 'RADIO_BUTTON' %}
+                                                <label>
+                                                {{ options.option_name }}
+                                                </label>
+                                                <input type="radio" name="{{ a_field.field_name }}_radio" value="{{ options.option_name }}"/>
+
+                                            {% endif %}
+                                        {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        {% if a_field.type == 'DROPDOWN' %}
+                            <div class="card">
+                                <label>{{ a_field.field_name }}</label>
+
+
+                                <select name="{{ a_field.field_name }}">
+                                <option value="">Choose</option>
+                                    {% for options in a_field.options.all %}
+                                            <option value="{{ options.option_name }}">{{ options.option_name }}</option>
+                                        {% endfor %}
+                                </select>
+                            </div>
+
+                        {% endif %}
+
+                        <input type="hidden" name="form_id" value="{{ form_id }}">
                     {% endfor %}
-                </ul>
--->
-                    </div>
 
+                    {% if all_form_fields.all|length > 0 %}
+                    <div class="divStyle">
+                        <input id="submitBtn" class="buttonStyle" type="submit" value="Submit">
+                    </div>
+                    {% endif %}
+                </form>
+
+              </div>
+              {% elif user_role == 'SUPERVISOR'  %}
+              <div class="col-lg-10 col-md-9 col-sm-9 main-content" >
+                      <div class="row">
+                        <div class="col-lg-2 col-md-3 col-sm-3 flex-column">
+                            <!--
+                            <nav class="navbar">
+                                <ul class="navbar-nav ">
+                                    {% for form_name in all_forms %}
+                                    <li class="nav-item nav-pills">
+
+                                        <a class="nav-link " href="#">
+                                            {{ form_name.form_name }}
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </nav>
+                            -->
+                        </div>
+
+                      <!-- user section top -->
+                      <div class="col-lg-8 col-md-9 col-sm-9 flex-column">
+                        <div class="row">
+                            <h6>{{form.form_name }}</h6>
+                            <div class="top-user">
+                                <nav class="navbar navbar-expand-lg navbar-light user-navbar">
+
+                                    <ul class="navbar-nav ">
+
+                                        {% for user in users %}
+                                           <li class="nav-item" style="color:white;" id="{{ user }}">
+
+                                               <form>
+                                                   <!--<input type="hidden" name="curr_user" value="{{ user }}">
+                                               <a onclick="location.href=''" ></a> -->
+                                                   <button type="submit" onclick="location.href='{% url 'form_cur_user' %}'" name="curr_user" value="{{ user }}">{{ user }}</button>
+                                               </form>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                            <!-- row 2 for form display -->
+                            <div class="row" style="margin-top:10px;">
+                                <ul>
+                                    {% for c_form in curr_user_forms %}
+
+                                            <h6>Form No:{{c_form.2}} - {{ c_form.3.status }}</h6>
+                                            <form method="POST" >
+                                                {% csrf_token %}
+                                                <input type="submit" class="btn btn-primary"  name="accept" value="Accept">
+
+                                                <input type="submit" class="btn btn-warning"  name="send_back" value="Send Back" >
+
+                                                <input type="submit" class="btn btn-danger" name="reject" value="Reject">
+                                                <input type="hidden" name="dataformpk" value="{{c_form.0}}">
+
+                                                <input type="hidden" name="eventid" value="{{c_form.2}}">
+
+                                                <input type="text" name="extracomments"  placeholder="Enter comments if any">
+
+                                            </form>
+                                            <!--
+                                            <form method="POST" action="{% url 'supervisor_form' %}">
+                                                {% csrf_token %}
+                                                <input type="text" name="extracomments"  placeholder="Enter comments if any">
+                                                <input type="hidden" name="extracommentsid" value="{{c_form.0}}">
+                                                <input type="hidden" name="form_id" value="{{ form_id  }}">
+                                                <input type="submit" value="Submit">
+                                            </form>
+                                              -->
+                                            <button class="btn btn-check" data-toggle="collapse" data-target="#div_{{c_form.2}}">View More</button>
+                                            <div id="div_{{c_form.2}}" class="bg-light collapse" style="border-radius:10px;border:1px solid grey">
+                                            <p>
+                                                <ul>
+                                                {% for key,value_li in c_form.1.items %}
+                                                 <h5>{{ key }}</h5>
+                                                 {% for value in value_li  %}
+                                                <p class="text-info">{{value}}</p>
+
+                                                {% endfor %}
+                                                {% endfor %}
+                                             </ul>
+                                            </p>
+                                        </div>
+                                            <br>
+
+
+                                    {% endfor %}
+                                        </ol>
+                            </div>
+
+                        </div>
+                      </div>
+
+                    {% else %}
+                      <div class="row">
+
+                      <!-- form col-1 -->
+                      <div class="col-lg-11 border-dark" >
+
+                        <form action="" method="POST" class="form-check-inline">
+                            <fieldset class="inline_label ">
+                            <table class="col-lg-11 table-responsive border-primary">
+                            {% csrf_token %}
+                            {{ form.as_table }}
+
+                             </table>
+                            <button type="submit" >Submit</button>
+                                </fieldset>
+                        </form>
+                      </div>
 
               </div>
 
-          </div>
+          {% endif %}
 
+          </div>
+      </div>
 
 
 

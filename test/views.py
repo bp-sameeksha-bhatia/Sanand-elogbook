@@ -175,6 +175,9 @@ def create_form(request,pk,event_id):
     cu = request.GET.get('curr_user', None)
     curr_form_data = []
     form_data = {}
+    is_form_filled = False
+    if form_data:
+        is_form_filled=True
     if Data.objects.filter(event_id=event_id).exists():
         form_data = Data.objects.get(event_id=event_id).form_data
 
@@ -224,7 +227,7 @@ def create_form(request,pk,event_id):
     context = {"all_form_fields": form.field, "all_form_options": all_form_fields,
                'user_role':user_role,'all_forms':all_forms,'users':users,
                'curr_user':c_user,'curr_user_forms':curr_form_data,'form_id':form.id,'event_id':event_id,'notification_count':global_noify_count(request),
-               'form_data':form_data,'event_status':event_status,'form':form}
+               'form_data':form_data,'event_status':event_status,'form':form,'is_form_filled':is_form_filled}
     return render(request, "test_form.html",context=context)
 
 

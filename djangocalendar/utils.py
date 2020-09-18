@@ -43,7 +43,7 @@ class Calendar(HTMLCalendar):
 				accepted_forms.append(a_event.form)
 		print('user s :',user)
 		print('accepted forms:',accepted_forms)
-		events = Event.objects.filter( user=user,status__in=['INITIAL','Send Back','Form Sent'])
+		events = Event.objects.filter(start_time__year=self.year, start_time__month=self.month, user=user,status__in=['INITIAL','Send Back','Form Sent'])
 		print('events is :',events)
 		cal = f'<table border="0" cellpadding="0" cellspacing="0" class="calendar">\n'
 		cal += f'{self.formatmonthname(self.year, self.month, withyear=withyear)}\n'

@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'notification',
     'import_export',
 
+
 ]
 
 MIDDLEWARE = [
@@ -155,7 +156,7 @@ SITE_ID = 2
 
 LOGIN_REDIRECT_URL = '/calendar'
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+#CRISPY_TEMPLATE_PACK = 'bootstrap4'
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -167,7 +168,8 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {
             'access_type': 'online',
         }
-    }
+    },
+
 }
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
