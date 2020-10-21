@@ -137,12 +137,13 @@ def supervisor_form(request):
 
 @register.filter
 def create_form(request,pk,event_id):
+    print('in create', request.POST.get('eventid'))
     form_id=request.POST.get('form_id')
     data_form_pk = request.POST.get('dataformpk')
     event_status = Event.objects.get(id=event_id).status
     if 'reject' in request.POST:
         print('inside reject')
-        data = Event.objects.get(id=event_id)
+        data = Event.objects.get(id=request.POST.get('eventid'))
         data.status = 'Reject'
         print(data.status)
         data.form_remarks = request.POST.get('extracomments')
@@ -151,18 +152,19 @@ def create_form(request,pk,event_id):
 
     elif 'accept' in request.POST:
         print('inside accept')
-        data = Event.objects.get(id=event_id)
-        #print('data is :',data)
+        print(event_id, 'event_is is here')
+        data = Event.objects.get(id=request.POST.get('eventid'))
+        print('data is :',data)
         data.status = 'Accepted'
         data.form_remarks = request.POST.get('extracomments')
         data.save()
+        print(data, 'data')
 
     elif 'send_back' in request.POST:
         print('send back ')
 
         print('form _pk is:', data_form_pk)
-        data = Event.objects.get(id=event_id)
-        data.event = event_id
+        data = Event.objects.get(id=request.POST.get('eventid'))
         data.status = 'Send Back'
         data.read_unread=False
         data.form_remarks = request.POST.get('extracomments')
@@ -232,6 +234,7 @@ def create_form(request,pk,event_id):
 
 
 def save_form(request):
+    print('here in save')
     if Data.objects.filter(event_id=request.POST.get('event_id')).exists():
         data = Data.objects.get(event_id=request.POST.get('event_id'))
     else:
