@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '&psd0#o#if&y2-%d%u6=9ar0@@wpcuxcatzw8&tp13r#j+i9+r'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ['DEBUG'] == 'True'
 
-ALLOWED_HOSTS = ['127.0.0.3','127.0.0.1:8001','127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.3','127.0.0.1:8001','127.0.0.1', '*', 'cp-sandbox-manthan-shuk509.appspot.com',]
 AUTH_USER_MODEL = 'accounts.User'
 
 # Application definition
@@ -96,11 +96,11 @@ WSGI_APPLICATION = 'Elogbook_1.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'elogbook',
-        'USER': 'postgres',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '',
+        'HOST': os.environ['DB_HOST'],
+        'PORT': os.environ['DB_PORT'],
+        'NAME': os.environ['DB_NAME'],
+        'USER': os.environ['DB_USER'],
+        'PASSWORD': os.environ['DB_PASSWORD']
     }
 }
 
@@ -141,7 +141,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = os.environ['STATIC_URL']
+
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'sanand-elogbook')
 
 STATICFILES_DIRS = ( os.path.join('static'), )
 

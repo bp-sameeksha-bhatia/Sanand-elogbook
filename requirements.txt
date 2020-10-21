@@ -5,13 +5,16 @@ defusedxml==0.6.0
 diff-match-patch==20200713
 Django==3.1
 django-allauth==0.42.0
+django-cors-headers==3.5.0
 django-crispy-forms==1.9.2
 django-import-export==2.3.0
 django-mathfilters==1.0.0
 django-nested-admin==3.3.2
 django-sortedm2m==3.0.2
+djangorestframework==3.11.1
 et-xmlfile==1.0.1
 fcm-django==0.3.4
+gunicorn==20.0.4
 idna==2.10
 jdcal==1.4.1
 MarkupPy==1.14
